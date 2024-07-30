@@ -27,6 +27,15 @@ module.exports = {
       res.status(500).json("Program Not Found!");
     }
   },
+  getProgramByCategory: async (req, res) => {
+    try {
+      const category = req.body.category;
+      const programs = await Program.find({ category: category });
+      res.status(200).json(programs);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
   showAllRoutineItems: async (req, res) => {
     try {
       const program = await Program.findById(req.params.id);
@@ -55,7 +64,7 @@ module.exports = {
           .json({ message: "Failed To Find The Routine Item" });
       }
       routineItem.isDone = !routineItem.isDone;
-      await program.save(); 
+      await program.save();
       res.status(200).json(routineItem);
     } catch (error) {
       console.log(error);
